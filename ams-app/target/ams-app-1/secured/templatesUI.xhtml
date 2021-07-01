@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+    <h:head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <title>#{msg.title}</title>
+
+        <link href="#{application.contextPath}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="#{application.contextPath}/vendor/font-awesome/font-awesome.min.css" rel="stylesheet"/>
+        <link href="#{application.contextPath}/vendor/css/simple-sidebar.css" rel="stylesheet"/>    
+        <link href="#{application.contextPath}/vendor/css/main.css" rel="stylesheet"/>    
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+
+        <style>
+            .ptext-link{
+                color: #17a2b8 !important;
+            }
+            .ptext-link:hover{
+                text-decoration: underline;
+            }
+        </style>
+
+    </h:head>
+    <body>
+        <div class="d-flex" id="wrapper">
+
+            <!-- Sidebar -->
+            <ui:include src="menu/side-bar.xhtml"/>
+
+                <!-- Page Content -->
+                <div id="page-content-wrapper">
+
+                    <!--top nav-->
+                    <ui:include src="menu/top-nav.xhtml"/>
+
+                    <div class="container-fluid">
+                         <p:messages globalOnly="true">
+                            <p:autoUpdate/>
+                        </p:messages>
+
+                        <ui:insert name="pageContent">
+                            Index Page
+                        </ui:insert>
+                    </div>
+                </div>
+
+        </div>
+
+        <!-- Bootstrap core JavaScript -->
+        <script src="#{application.contextPath}/vendor/jquery/jquery.min.js"></script>
+        <script src="#{application.contextPath}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Menu Toggle Script -->
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+        </script>
+    </body>
+</html>
+
