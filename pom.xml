@@ -20,6 +20,6 @@
   <modules>
       
     <module>ams-app</module>
-      
+    <module>ams-entities</module>
   </modules>
 </project>

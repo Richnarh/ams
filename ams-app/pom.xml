@@ -70,7 +70,7 @@
         </dependency>
         <dependency>
             <groupId>com.khoders</groupId>
-            <artifactId>icpsc-entities</artifactId>
+            <artifactId>ams-entities</artifactId>
             <version>1</version>
             <type>jar</type>
         </dependency>

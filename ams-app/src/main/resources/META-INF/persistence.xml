@@ -3,6 +3,7 @@
   <!-- Define Persistence Unit -->
   <persistence-unit name="amsPU" transaction-type="JTA">
     <jta-data-source>jdbc/ams</jta-data-source>
+    <class>com.khoders.ams.entities.UserAccount</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="create"/>

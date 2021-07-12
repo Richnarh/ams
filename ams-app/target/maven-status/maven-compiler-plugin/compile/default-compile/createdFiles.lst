@@ -1,2 +1,6 @@
-com\khoders\ams\app\JAXRSConfiguration.class
-com\khoders\ams\app\resources\JavaEE8Resource.class
+com\khoders\ams\app\entities\AssetLocation.class
+com\khoders\ams\app\entities\UserAccountRecord.class
+com\khoders\ams\app\commons\UsercommonBeans.class
+com\khoders\ams\app\commons\CommonBeans.class
+com\khoders\ams\app\entities\Asset.class
+com\khoders\ams\app\Pages.class
