@@ -1,4 +1,4 @@
-package com.khoders.ams.entities;
+package com.khoders.ams.app.entities;
 
 import com.khoders.resource.enums.AccessLevel;
 import com.khoders.resource.enums.Status;

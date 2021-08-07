@@ -5,8 +5,13 @@
  */
 package com.khoders.ams.app.commons;
 
+import com.khoders.ams.app.entities.Asset;
+import com.khoders.ams.app.services.AssetService;
 import com.khoders.resource.jpa.CrudApi;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -20,5 +25,20 @@ import javax.inject.Named;
 public class UsercommonBeans implements Serializable
 {
     @Inject private CrudApi crudApi;
+    @Inject private AssetService assetService;
+    
+    private List<Asset> assetList = new LinkedList<>();
+    
+    @PostConstruct
+    private void init()
+    {
+      assetList = assetService.getAssetList();
+    }        
+
+    public List<Asset> getAssetList()
+    {
+        return assetList;
+    }
+    
     
 }

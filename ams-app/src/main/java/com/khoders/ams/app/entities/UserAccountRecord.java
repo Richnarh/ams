@@ -5,7 +5,6 @@
  */
 package com.khoders.ams.app.entities;
 
-import com.khoders.ams.entities.UserAccount;
 import com.khoders.resource.jpa.BaseModel;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

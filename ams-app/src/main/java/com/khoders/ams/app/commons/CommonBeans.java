@@ -5,7 +5,10 @@
  */
 package com.khoders.ams.app.commons;
 
+import com.khoders.ams.app.entities.enums.AssetStatus;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
@@ -17,5 +20,8 @@ import javax.inject.Named;
 @SessionScoped
 public class CommonBeans implements Serializable
 {
-    
+    public List<AssetStatus> getAssetStatus()
+    {
+        return Arrays.asList(AssetStatus.values());
+    }
 }
