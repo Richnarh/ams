@@ -37,9 +37,9 @@ public class Asset extends UserAccountRecord implements Serializable
     @Column(name = "purchased_date")
     private LocalDate purchasedDate;
     
-    @JoinColumn(name = "supplier_name")
+    @JoinColumn(name = "client")
     @ManyToOne
-    private Supplier supplierName;
+    private Client client;
     
     @JoinColumn(name = "asset_category", referencedColumnName = "id")
     @ManyToOne
@@ -115,16 +115,16 @@ public class Asset extends UserAccountRecord implements Serializable
         this.purchasedDate = purchasedDate;
     }
 
-    public Supplier getSupplierName()
+    public Client getClient()
     {
-        return supplierName;
+        return client;
     }
 
-    public void setSupplierName(Supplier supplierName)
+    public void setClient(Client client)
     {
-        this.supplierName = supplierName;
+        this.client = client;
     }
-
+    
     public AssetCategory getAssetCategory()
     {
         return assetCategory;

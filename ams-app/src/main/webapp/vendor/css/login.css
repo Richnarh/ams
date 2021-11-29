@@ -4,83 +4,131 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : Jun 29, 2021, 5:34:59 AM
+    Created on : May 29, 2021, 12:18:55 PM
     Author     : richa
 */
 
-.main-content{
-	width: 50%;
-	border-radius: 20px;
-	box-shadow: 0 5px 5px rgba(0,0,0,.4);
-	margin: 5em auto;
-	display: flex;
+body {
+  /*background-color: #f45b69;*/
+  background-color: #e9ecef;
+  font-family: "Asap", sans-serif;
 }
-.company__info{
-	background-color: #008080;
-	border-top-left-radius: 20px;
-	border-bottom-left-radius: 20px;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	color: #fff;
+
+.login {
+  overflow: hidden;
+  background-color: white;
+  padding: 40px 30px 30px 30px;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-transition: -webkit-transform 300ms, box-shadow 300ms;
+  -moz-transition: -moz-transform 300ms, box-shadow 300ms;
+  transition: transform 300ms, box-shadow 300ms;
+  box-shadow: 5px 10px 10px rgba(2, 128, 144, 0.2);
 }
-.fa-android{
-	font-size:3em;
+.login::before, .login::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-top-left-radius: 40%;
+  border-top-right-radius: 45%;
+  border-bottom-left-radius: 35%;
+  border-bottom-right-radius: 40%;
+  z-index: -1;
 }
-@media screen and (max-width: 640px) {
-	.main-content{width: 90%;}
-	.company__info{
-		display: none;
-	}
-	.login_form{
-		border-top-left-radius:20px;
-		border-bottom-left-radius:20px;
-	}
+.login::before {
+  left: 40%;
+  bottom: -130%;
+  background-color: rgba(69, 105, 144, 0.15);
+  -webkit-animation: wawes 6s infinite linear;
+  -moz-animation: wawes 6s infinite linear;
+  animation: wawes 6s infinite linear;
 }
-@media screen and (min-width: 642px) and (max-width:800px){
-	.main-content{width: 70%;}
+.login::after {
+  left: 35%;
+  bottom: -125%;
+  background-color: rgba(2, 128, 144, 0.2);
+  -webkit-animation: wawes 7s infinite;
+  -moz-animation: wawes 7s infinite;
+  animation: wawes 7s infinite;
 }
-.row > h2{
-	color:#008080;
+.login > input {
+  font-family: "Asap", sans-serif;
+  display: block;
+  border-radius: 5px;
+  font-size: 16px;
+  background: white;
+  width: 100%;
+  border: 0;
+  padding: 10px 10px;
+  margin: 15px -10px;
 }
-.login_form{
-	background-color: #fff;
-	border-top-right-radius:20px;
-	border-bottom-right-radius:20px;
-	border-top:1px solid #ccc;
-	border-right:1px solid #ccc;
+.login > button {
+  font-family: "Asap", sans-serif;
+  cursor: pointer;
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+  width: 80px;
+  border: 0;
+  padding: 10px 0;
+  margin-top: 10px;
+  margin-left: -5px;
+  border-radius: 5px;
+  background-color: #f45b69;
+  -webkit-transition: background-color 300ms;
+  -moz-transition: background-color 300ms;
+  transition: background-color 300ms;
 }
-form{
-	padding: 0 2em;
+.login > button:hover {
+  background-color: #f24353;
 }
-.form__input{
-	width: 100%;
-	border:0px solid transparent;
-	border-radius: 0;
-	border-bottom: 1px solid #aaa;
-	padding: 1em .5em .5em;
-	/*padding-left: 2em;*/
-	outline:none;
-	margin:1.5em auto;
-	transition: all .5s ease;
+
+@-webkit-keyframes wawes {
+  from {
+    -webkit-transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
-.form__input:focus{
-	border-bottom-color: #008080;
-	box-shadow: 0 0 5px rgba(0,80,80,.4); 
-	border-radius: 4px;
+@-moz-keyframes wawes {
+  from {
+    -moz-transform: rotate(0);
+  }
+  to {
+    -moz-transform: rotate(360deg);
+  }
 }
-.btn{
-	transition: all .5s ease;
-	width: 70%;
-	border-radius: 30px;
-	color:#008080;
-	font-weight: 600;
-	background-color: #fff;
-	border: 1px solid #008080;
-	margin-top: 1.5em;
-	margin-bottom: 1em;
+@keyframes wawes {
+  from {
+    -webkit-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -ms-transform: rotate(0);
+    -o-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
-.btn:hover, .btn:focus{
-	background-color: #008080;
-	color:#fff;
+a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 12px;
 }

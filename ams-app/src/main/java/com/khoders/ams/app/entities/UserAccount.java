@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -44,7 +45,7 @@ public class UserAccount extends BaseModel implements Serializable{
   @Enumerated(EnumType.STRING)
   private AccessLevel accessLevel;  
       
-  
+  @Transient
   private String password2;
 
     public String getFullname()

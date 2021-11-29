@@ -6,6 +6,8 @@
 package com.khoders.ams.app.commons;
 
 import com.khoders.ams.app.entities.Asset;
+import com.khoders.ams.app.entities.Department;
+import com.khoders.ams.app.entities.Faculty;
 import com.khoders.ams.app.services.AssetService;
 import com.khoders.resource.jpa.CrudApi;
 import java.io.Serializable;
@@ -28,17 +30,30 @@ public class UsercommonBeans implements Serializable
     @Inject private AssetService assetService;
     
     private List<Asset> assetList = new LinkedList<>();
+    private List<Faculty> facultyList = new LinkedList<>();
+    private List<Department> departmentList = new LinkedList<>();
     
     @PostConstruct
     private void init()
     {
       assetList = assetService.getAssetList();
+      facultyList = assetService.getFacultyList();
+      departmentList = assetService.getDepartmentList();
     }        
 
     public List<Asset> getAssetList()
     {
         return assetList;
     }
-    
+
+    public List<Faculty> getFacultyList()
+    {
+        return facultyList;
+    }
+
+    public List<Department> getDepartmentList()
+    {
+        return departmentList;
+    }
     
 }

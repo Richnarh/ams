@@ -36,6 +36,4 @@ public class AssetCategory extends UserAccountRecord implements Serializable
     {
        return categoryName;
     }
-    
-    
 }

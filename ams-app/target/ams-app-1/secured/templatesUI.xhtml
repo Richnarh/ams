@@ -31,7 +31,6 @@
     <body>
         <div class="d-flex" id="wrapper">
 
-            <!-- Sidebar -->
             <ui:include src="menu/side-bar.xhtml"/>
 
                 <!-- Page Content -->
@@ -46,7 +45,9 @@
                         </p:messages>
 
                         <ui:insert name="pageContent">
-                            Index Page
+                            <div class="col-md-12 py-3">
+                                Index Page
+                            </div>
                         </ui:insert>
                     </div>
                 </div>

@@ -5,12 +5,12 @@
  */
 package com.khoders.ams.app.jbeans;
 
-
 import com.khoders.ams.app.Pages;
 import com.khoders.ams.app.UserModel;
 import com.khoders.ams.app.entities.UserAccount;
 import com.khoders.ams.app.listener.AppSession;
 import com.khoders.ams.app.services.UserAccountService;
+import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.Msg;
 import java.io.Serializable;
 import javax.enterprise.context.RequestScoped;
@@ -30,12 +30,13 @@ public class LoginController implements Serializable
 {
     @Inject private AppSession appSession;
     @Inject private UserAccountService userAccountService;
+    @Inject private CrudApi crudApi;
     
     private String userEmail;
     private String password;
     
     private UserModel userModel = new UserModel();
-
+    
     public String doLogin()
     {
         try
@@ -53,7 +54,7 @@ public class LoginController implements Serializable
             }
 
             initLogin(account);
-
+            
         } catch (Exception e)
         {
             e.printStackTrace();
@@ -73,14 +74,12 @@ public class LoginController implements Serializable
                 return null;
             }
             appSession.login(userAccount);
-            
             Faces.redirect(Pages.index);
 
         } catch (Exception e)
         {
             e.printStackTrace();
         }
-
         return null;
     }
 
@@ -88,10 +87,9 @@ public class LoginController implements Serializable
     {
         try
         {
-            
             Faces.invalidateSession();
             Faces.logout();
-            
+
             Faces.redirect(Pages.login);
         } catch (Exception e)
         {
@@ -99,7 +97,7 @@ public class LoginController implements Serializable
         }
         return null;
     }
-
+     
     public String getUserEmail() {
         return userEmail;
     }

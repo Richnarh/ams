@@ -8,6 +8,8 @@ package com.khoders.ams.app.entities;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,6 +25,10 @@ public class Department extends UserAccountRecord implements Serializable
    
    @Column(name = "dept_name")
    private String deptName;
+   
+   @JoinColumn(name = "faculty", referencedColumnName = "id")
+   @ManyToOne
+   private Faculty faculty;
 
     public String getDeptCode()
     {
@@ -42,6 +48,16 @@ public class Department extends UserAccountRecord implements Serializable
     public void setDeptName(String deptName)
     {
         this.deptName = deptName;
+    }
+
+    public Faculty getFaculty()
+    {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty)
+    {
+        this.faculty = faculty;
     }
 
     @Override

@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * @author 
  */
 @Entity
-@Table(name = "asset")
+@Table(name = "asset_location")
 public class AssetLocation extends UserAccountRecord implements Serializable
 {
     @Column(name = "location_code")

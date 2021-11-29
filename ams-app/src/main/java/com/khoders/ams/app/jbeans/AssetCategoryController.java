@@ -6,11 +6,13 @@
 package com.khoders.ams.app.jbeans;
 
 import com.khoders.ams.app.entities.AssetCategory;
+import com.khoders.ams.app.listener.AppSession;
 import com.khoders.ams.app.services.AssetService;
 import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.CollectionList;
 import com.khoders.resource.utilities.FormView;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.resource.utilities.SystemUtils;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,14 +25,15 @@ import javax.inject.Named;
 
 /**
  *
- * @author richa
+ * @author richard
  */
-@Named(value = "asetCategoryController")
+@Named(value = "assetCategoryController")
 @SessionScoped
 public class AssetCategoryController implements Serializable
 {
     @Inject private CrudApi crudApi;
     @Inject private AssetService assetService;
+    @Inject private AppSession appSession;
     
     private AssetCategory assetCategory = new AssetCategory();
     private List<AssetCategory> assetCategoryList = new LinkedList<>();
@@ -43,6 +46,7 @@ public class AssetCategoryController implements Serializable
     private void init()
     {
        assetCategoryList = assetService.getAssetCategoryList();
+       clearAssetCategory();
     }
     
     public void saveAssetCategory()
@@ -55,7 +59,7 @@ public class AssetCategoryController implements Serializable
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.setMsg("Purchase order saved"), null)); 
                
-               closePage();
+               clearAssetCategory();
             }
             else
             {
@@ -75,7 +79,7 @@ public class AssetCategoryController implements Serializable
        optionText = "Update";
     }
     
-    public void deleleteAssetCategory(AssetCategory assetCategory)
+    public void deleteAssetCategory(AssetCategory assetCategory)
     {
         try
         {
@@ -93,13 +97,14 @@ public class AssetCategoryController implements Serializable
         }
     }
     
-    public void closePage()
+    public void clearAssetCategory()
     {
        assetCategory = new AssetCategory();
+       assetCategory.setUserAccount(appSession.getCurrentUser());
        optionText = "Save Changes";
-       pageView.restToListView();
+       SystemUtils.resetJsfUI();
     }
-
+    
     public AssetCategory getAssetCategory()
     {
         return assetCategory;
