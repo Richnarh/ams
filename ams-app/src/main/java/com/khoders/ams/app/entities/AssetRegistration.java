@@ -31,8 +31,9 @@ public class AssetRegistration extends UserAccountRecord implements Serializable
     @Column(name = "registration_date")
     private LocalDate registrationDate;
     
-    @Column(name = "asset_location")
-    private String assetLocation;
+    @JoinColumn(name = "asset_location", referencedColumnName = "id")
+    @ManyToOne
+    private AssetLocation assetLocation;
     
     @Column(name = "asset_status")
     @Enumerated(EnumType.STRING)
@@ -42,10 +43,9 @@ public class AssetRegistration extends UserAccountRecord implements Serializable
     @ManyToOne
     private Asset asset;
     
-    @JoinColumn(name = "asset_type", referencedColumnName = "id")
-    @ManyToOne
-    private AssetCategory assetCategory;
-
+    @Column(name = "description")
+    private String description;
+    
     public String getAssetCode()
     {
         return assetCode;
@@ -65,27 +65,48 @@ public class AssetRegistration extends UserAccountRecord implements Serializable
     {
         this.registrationDate = registrationDate;
     }
-    
-    public String getAssetLocation()
+
+    public AssetLocation getAssetLocation()
     {
         return assetLocation;
     }
 
-    public void setAssetLocation(String assetLocation)
+    public void setAssetLocation(AssetLocation assetLocation)
     {
         this.assetLocation = assetLocation;
     }
-
-    public AssetCategory getAssetCategory()
+    
+    public AssetStatus getAssetStatus()
     {
-        return assetCategory;
+        return assetStatus;
     }
 
-    public void setAssetCategory(AssetCategory assetCategory)
+    public void setAssetStatus(AssetStatus assetStatus)
     {
-        this.assetCategory = assetCategory;
+        this.assetStatus = assetStatus;
+    }
+
+    public Asset getAsset()
+    {
+        return asset;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public void setAsset(Asset asset)
+    {
+        this.asset = asset;
     }
     
+    @Override
     public void genCode()
     {
         if(getAssetCode()!= null)
@@ -94,7 +115,7 @@ public class AssetRegistration extends UserAccountRecord implements Serializable
         }
         else
         {
-            setAssetCode(SystemUtils.generateCode());
+            setAssetCode(SystemUtils.generateShortCode());
         }
     }
 }

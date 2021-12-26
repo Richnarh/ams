@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">  
+
+    <h:body>
+        <ui:composition template="../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                Asset Registration
+            </ui:define>
+
+            <ui:define name="pageContent">
+                <h:panelGroup id="mainPanel">
+                    <div class="pt-4"></div>
+                    <div class="container-fluid">
+                        <div class="card">
+                            <div class="card-header">Add new Assets</div>
+
+                            <div class="card-body">
+                                <h:panelGroup rendered="#{assetRegistrationController.pageView.listView}">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-12 col-lg-12">
+                                            <h:form class="float-right pt-3" style="margin-bottom: 5px;">
+
+                                                <div class="float-right">
+                                                    <h:commandButton value="#{msg.new} #{msg.client}" class="btn btn-outline-primary btn-sm"
+                                                                     action="#{assetRegistrationController.initAsset()}">
+                                                        <p:ajax update=":mainPanel"/>
+                                                    </h:commandButton>
+                                                </div>
+                                            </h:form>
+                                        </div>
+                                    </div>
+
+                                    <h:form id="clientTable" class="mb-3 wow">
+                                        <p:dataTable value="#{assetRegistrationController.assetRegistrationList}" reflow="true" var="asset"
+                                                     paginator="true" paginatorPosition="bottom" rows="10">
+                                            <p:column exportable="false" style="width: 40px;">
+                                                <p:rowToggler/>
+                                            </p:column>
+
+                                            <p:rowExpansion>
+                                                <h:panelGrid columns="2">
+                                                    <span>#{msg.created_date}</span>
+                                                    <h:outputText value="#{asset.createdDate}">
+                                                        <f:convertDateTime pattern="#{msg.formatted_date}" type="localDate"/>
+                                                    </h:outputText>
+
+                                                    <span>#{msg.description}</span>
+                                                    <h:outputText value="#{asset.description}"/>
+                                                </h:panelGrid>
+                                            </p:rowExpansion>
+
+                                            <p:column headerText="#{msg.asset} Code">
+                                                <h:outputText value="#{asset.assetCode}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Client Type">
+                                                <h:outputText value="#{client.clientType.label}"/>
+                                            </p:column>
+
+                                            <p:column headerText="#{msg.client} Name" filterBy="#{client.clientName}" filterMatchMode="contains">
+                                                #{client.clientName}
+                                            </p:column>
+
+                                            <p:column headerText="#{msg.phone}" filterBy="#{client.phone}" filterMatchMode="contains">
+                                                #{client.phone}
+                                            </p:column>
+
+                                            <p:column headerText="#{msg.action}" style="width: 80px;">
+                                                <h:commandButton class="btn btn-outline-info btn-sm" value="#{msg.edit}" immediate="true" action="#{assetRegistrationController.editClient(client)}">
+                                                    <p:ajax  update=":mainPanel"/>
+                                                </h:commandButton>
+                                            </p:column>
+
+                                            <p:column headerText="#{msg.action}" style="width: 100px;">
+                                                <h:commandButton class="btn btn-danger btn-sm" value="#{msg.delete}" action="#{assetRegistrationController.deleteClient(client)}" 
+                                                                 onclick="return confirm('#{msg.delete_message}')">
+                                                    <p:ajax update="@form"/>
+                                                </h:commandButton>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </h:panelGroup>
+
+                                <h:panelGroup  rendered="#{assetRegistrationController.pageView.createView}">
+                                    <div class="col-md-6 mb-5 pt-3 mx-auto">
+                                        <h:form>
+                                            <div class="card-block">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.client_type} <span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <h:selectOneMenu class="form-control" value="#{assetRegistrationController.client.clientType}" required="true">
+                                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                                            <f:selectItems value="#{commonBeans.clientTypeList}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.client} Name <span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" jsf:value="#{assetRegistrationController.client.clientName}" required="true" class="form-control" placeholder="Enter name"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.phone} <span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" jsf:value="#{assetRegistrationController.client.phone}" required="true" class="form-control" placeholder="Mobile number"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.description}</label>
+                                                    <div class="col-md-8">
+                                                        <textarea type="text" jsf:value="#{assetRegistrationController.client.description}" class="form-control" placeholder="Enter description"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center pt-3">
+                                                <p:commandButton class="kbtn-success" value="#{assetRegistrationController.optionText}" icon="#{msg.check_icon}" action="#{assetRegistrationController.saveClient()}" ajax="false"/>
+                                                <p:commandButton class="kbtn-default ml-2" value="#{msg.clear}" icon="fa fa-trash" action="#{assetRegistrationController.clearClient()}" update=":mainPanel"/>
+
+                                                <div class="float-right">
+                                                    <h:commandButton value="#{msg.close}" class="btn btn-danger btn-sm" immediate="true" action="#{assetRegistrationController.closePage()}">
+                                                        <p:ajax update="@form,:mainPanel"/>
+                                                    </h:commandButton>
+                                                </div>                 
+                                            </div>
+
+                                        </h:form>
+                                    </div>
+                                </h:panelGroup>
+
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

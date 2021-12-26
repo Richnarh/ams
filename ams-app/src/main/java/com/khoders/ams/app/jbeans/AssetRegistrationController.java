@@ -6,11 +6,14 @@
 package com.khoders.ams.app.jbeans;
 
 import com.khoders.ams.app.entities.AssetRegistration;
+import com.khoders.ams.app.listener.AppSession;
 import com.khoders.ams.app.services.AssetService;
 import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.CollectionList;
+import com.khoders.resource.utilities.DateRangeUtil;
 import com.khoders.resource.utilities.FormView;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.resource.utilities.SystemUtils;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,28 +26,40 @@ import javax.inject.Named;
 
 /**
  *
- * @author richa
+ * @author khoders
  */
 @Named(value = "assetRegistrationController")
 @SessionScoped
 public class AssetRegistrationController implements Serializable
 {
-    @Inject private CrudApi crudApi;
+    @Inject
+    private CrudApi crudApi;
+    @Inject
+    private AppSession appSession;
     @Inject private AssetService assetService;
-    
     private AssetRegistration assetRegistration = new AssetRegistration();
     private List<AssetRegistration> assetRegistrationList = new LinkedList<>();
-    
-    FormView pageView = FormView.listForm();
-    
+    private DateRangeUtil dateRange = new DateRangeUtil();
+
+    private FormView pageView = FormView.listForm();
     private String optionText;
-    
+
     @PostConstruct
     private void init()
     {
        assetRegistrationList = assetService.getRegisteredAssetList();
     }
+
+    public void initAsset()
+    {
+        clearAssetRegistration();
+        pageView.restToCreateView();
+    }
     
+    public void filterAsset(){
+        assetRegistrationList = assetService.getAssetRegistration(dateRange); 
+    }
+
     public void saveAssetRegistration()
     {
         try
@@ -69,45 +84,60 @@ public class AssetRegistrationController implements Serializable
         }
     }
     
-    public void editAssetRegistration(AssetRegistration assetRegistration)
-    {
-       this.assetRegistration = assetRegistration;
-       optionText = "Update";
-    }
-    
-    public void deleleteAssetRegistration(AssetRegistration assetRegistration)
+    public void deleteAssetRegistration(AssetRegistration assetRegistration)
     {
         try
         {
-           if(crudApi.delete(assetRegistration))
-           {
-               assetRegistrationList.remove(assetRegistration);
-               
+            if (crudApi.delete(assetRegistration))
+            {
+                assetRegistrationList.remove(assetRegistration);
+
                 FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.SUCCESS_MESSAGE, null)); 
-               
-           }
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, Msg.SUCCESS_MESSAGE, null));
+            } else
+            {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.FAILED_MESSAGE, null));
+            }
         } catch (Exception e)
         {
             e.printStackTrace();
         }
     }
+
+    public void editAssetRegistration(AssetRegistration assetRegistration)
+    {
+        pageView.restToCreateView();
+        this.assetRegistration = assetRegistration;
+        optionText = "Update";
+    }
     
+    public void clearAssetRegistration()
+    {
+        assetRegistration = new AssetRegistration();
+        assetRegistration.genCode();
+        assetRegistration.setUserAccount(appSession.getCurrentUser());
+        optionText = "Save Changes";
+        SystemUtils.resetJsfUI();
+    }
+
     public void closePage()
     {
-       assetRegistration = new AssetRegistration();
-       optionText = "Save Changes";
-       pageView.restToListView();
+        assetRegistration = new AssetRegistration();
+        assetRegistration.genCode();
+        assetRegistration.setUserAccount(appSession.getCurrentUser());
+        optionText = "Save Changes";
+        pageView.restToListView();
     }
 
-    public AssetRegistration getAssetRegistration()
+    public String getOptionText()
     {
-        return assetRegistration;
+        return optionText;
     }
 
-    public void setAssetRegistration(AssetRegistration assetRegistration)
+    public void setOptionText(String optionText)
     {
-        this.assetRegistration = assetRegistration;
+        this.optionText = optionText;
     }
 
     public FormView getPageView()
@@ -119,15 +149,30 @@ public class AssetRegistrationController implements Serializable
     {
         this.pageView = pageView;
     }
+    
+    public DateRangeUtil getDateRange()
+    {
+        return dateRange;
+    }
+
+    public void setDateRange(DateRangeUtil dateRange)
+    {
+        this.dateRange = dateRange;
+    }
 
     public List<AssetRegistration> getAssetRegistrationList()
     {
         return assetRegistrationList;
     }
 
-    public String getOptionText()
+    public AssetRegistration getAssetRegistration()
     {
-        return optionText;
+        return assetRegistration;
+    }
+
+    public void setAssetRegistration(AssetRegistration assetRegistration)
+    {
+        this.assetRegistration = assetRegistration;
     }
     
 }

@@ -9,7 +9,7 @@
     <h:body>
         <ui:composition template="../templatesUI.xhtml">
             <ui:define name="pageTitle">
-                Asset Location
+                Department
             </ui:define>
 
             <ui:define name="pageContent">
@@ -25,11 +25,10 @@
                                     <p:inputText value="#{departmentController.department.deptName}" required="true"/>
                                     
                                     <span>Faculty</span>
-                                    <p:selectOneMenu value="#{departmentController.department.faculty}">
+                                    <h:selectOneMenu class="form-control" value="#{departmentController.department.faculty}" required="true">
                                         <f:selectItem itemLabel="#{msg.choose}"/>
                                         <f:selectItems value="#{usercommonBeans.facultyList}"/>
-                                    </p:selectOneMenu>
-
+                                    </h:selectOneMenu>
                                 </h:panelGrid>
                                 <br/>
                                 <p:commandButton icon="#{msg.check_icon_circle}" class="kbtn-success mx-3" value="#{departmentController.optionText}" action="#{departmentController.saveDepartment()}" update="@form, :departmentTable"/>
@@ -39,11 +38,11 @@
                         <div class="col-md-8">
                             <h:form id="departmentTable">
                                 <p:dataTable value="#{departmentController.departmentList}" var="department" paginator="true" paginatorPosition="bottom" rows="12">
-                                    <p:column headerText="Code" style="width: 100px;">
+                                    <p:column headerText="Code" style="width: 40px;">
                                         #{department.deptCode}
                                     </p:column>
-                                    
-                                    <p:column headerText="Name" style="width: 100px;">
+                                   
+                                    <p:column headerText="Department" style="width: 100px;">
                                         #{department.deptName}
                                     </p:column>
                                     
@@ -51,11 +50,11 @@
                                         #{department.faculty.facultyname}
                                     </p:column>
                                     
-                                    <p:column headerText="#{msg.action}" style="width: 70px;">
+                                    <p:column headerText="#{msg.action}" style="width: 30px;">
                                         <p:commandButton value="#{msg.edit}" class="kbtn-secondary" action="#{departmentController.editDepartment(department)}" update=":departmentForm"/>
                                     </p:column>
 
-                                    <p:column headerText="#{msg.action}" style="width: 80px;">
+                                    <p:column headerText="#{msg.action}" style="width: 40px;">
                                         <p:commandButton value="#{msg.delete}" class="kbtn-danger" onclick="return confirm('#{msg.delete_message}')" action="#{departmentController.deleteDepartment(department)}" update="@form"/>
                                     </p:column>
                                 </p:dataTable>

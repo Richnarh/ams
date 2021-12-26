@@ -37,6 +37,12 @@ public class AssetLocation extends UserAccountRecord implements Serializable
     {
         this.locationName = locationName;
     }
+
+    @Override
+    public String toString()
+    {
+        return locationName;
+    }
     
     
 }

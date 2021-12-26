@@ -7,7 +7,6 @@ package com.khoders.ams.app.entities;
 
 import com.khoders.ams.app.entities.enums.AssetStatus;
 import com.khoders.ams.app.entities.enums.DispatchType;
-import com.khoders.resource.utilities.SystemUtils;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;
@@ -27,9 +26,6 @@ import javax.persistence.Table;
 @Table(name = "asset_dispatch")
 public class AssetDispatch extends UserAccountRecord implements Serializable
 {
-    @Column(name = "dispatch_code")
-    private String dispatchCode;
-    
     @JoinColumn(name = "asset", referencedColumnName = "id")
     @ManyToOne
     private Asset asset;
@@ -39,10 +35,6 @@ public class AssetDispatch extends UserAccountRecord implements Serializable
     
     @Column(name = "auction_cost")
     private double auctionCost;
-    
-    @JoinColumn(name = "location", referencedColumnName = "id")
-    @ManyToOne
-    private AssetLocation from;
     
     @Column(name = "asset_status")
     @Enumerated(EnumType.STRING)
@@ -55,16 +47,6 @@ public class AssetDispatch extends UserAccountRecord implements Serializable
     @Lob
     @Column(name = "description")
     private String description;
-
-    public String getDispatchCode()
-    {
-        return dispatchCode;
-    }
-
-    public void setDispatchCode(String dispatchCode)
-    {
-        this.dispatchCode = dispatchCode;
-    }
 
     public Asset getAsset()
     {
@@ -96,16 +78,6 @@ public class AssetDispatch extends UserAccountRecord implements Serializable
         this.auctionCost = auctionCost;
     }
 
-    public AssetLocation getFrom()
-    {
-        return from;
-    }
-
-    public void setFrom(AssetLocation from)
-    {
-        this.from = from;
-    }
-
     public AssetStatus getAssetStatus()
     {
         return assetStatus;
@@ -134,17 +106,5 @@ public class AssetDispatch extends UserAccountRecord implements Serializable
     public void setDescription(String description)
     {
         this.description = description;
-    }
-    
-    public void genCode()
-    {
-        if(getDispatchCode()!= null)
-        {
-           setDispatchCode(getDispatchCode());
-        }
-        else
-        {
-            setDispatchCode(SystemUtils.generateCode());
-        }
     }
 }

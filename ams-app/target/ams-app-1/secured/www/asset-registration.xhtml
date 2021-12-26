@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">  
+
+    <h:body>
+        <ui:composition template="../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                #{msg.asset} Registration
+            </ui:define>
+
+            <ui:define name="pageContent">
+                <h:panelGroup id="mainPanel">
+                    <div class="pt-4"></div>
+                    <div class="container-fluid">
+                        <div class="card">
+                            <div class="card-header">Register Asset</div>
+
+                            <div class="card-body">
+                                <h:panelGroup rendered="#{assetRegistrationController.pageView.listView}">
+                                    <div class="row wow fadeInDown">
+                                        <div class="col-md-12 col-sm-6 col-lg-12">
+                                            <h:form style="margin-bottom: 5px;">
+
+                                                <span class="mr-2">From Date: </span>
+                                                <p:datePicker value="#{assetRegistrationController.dateRange.fromDate}"
+                                                              pattern="#{msg.formatted_date}" 
+                                                              monthNavigator="true" yearNavigator="true"/>
+
+                                                <span class="mr-2">To Date: </span>
+                                                <p:datePicker value="#{assetRegistrationController.dateRange.toDate}"
+                                                              pattern="#{msg.formatted_date}" 
+                                                              monthNavigator="true" yearNavigator="true"/>
+
+                                                <h:commandButton class="mx-2 btn btn-info btn-sm" value="Search Asset" action="#{assetRegistrationController.filterAsset()}"/>
+
+                                                <div class="float-right">
+                                                    <h:commandButton value="Register #{msg.new} #{msg.asset}" class="btn btn-outline-primary btn-sm"
+                                                                     action="#{assetRegistrationController.initAsset()}">
+                                                        <p:ajax update=":mainPanel"/>
+                                                    </h:commandButton>
+                                                </div>
+
+                                            </h:form>      
+                                        </div>
+                                    </div>
+                                    <h:form id="assetTable" class="mb-3 wow">
+                                        <p:dataTable value="#{assetRegistrationController.assetRegistrationList}" reflow="true" var="assetRegistration"
+                                                     paginator="true" paginatorPosition="bottom" rows="10">
+                                            <p:column exportable="false" style="width: 40px;">
+                                                <p:rowToggler/>
+                                            </p:column>
+
+                                            <p:rowExpansion>
+                                                <h:panelGrid columns="2">
+                                                    <span>#{msg.created_date}</span>
+                                                    <h:outputText value="#{asset.createdDate}">
+                                                        <f:convertDateTime pattern="#{msg.formatted_date}" type="localDate"/>
+                                                    </h:outputText>
+
+                                                    <span>#{msg.ref_no}</span>
+                                                    <h:outputText value="#{assetRegistration.referenceNo}"/>
+                                                    
+                                                    <span>#{msg.description}</span>
+                                                    <h:outputText value="#{assetRegistration.description}"/>
+                                                </h:panelGrid>
+                                            </p:rowExpansion>
+
+                                            <p:column headerText="#{msg.date}">
+                                                <h:outputText value="#{assetRegistration.registrationDate}">
+                                                    <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
+                                                </h:outputText>
+                                            </p:column>
+
+                                            <p:column headerText="#{msg.asset} Code">
+                                                <h:outputText value="#{assetRegistration.assetCode}"/>
+                                            </p:column>
+
+                                            <p:column headerText="#{msg.asset} Name" filterBy="#{asset.assetName}" filterMatchMode="contains">
+                                                <h:outputText value="#{assetRegistration.asset.assetName}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Location">
+                                                <h:outputText value="#{assetRegistration.assetLocation.locationName}"/>
+                                            </p:column>
+
+                                            <p:column headerText="Asset Status">
+                                                <h:outputText value="#{assetRegistration.assetStatus}"/>
+                                            </p:column>
+
+                                            <p:column headerText="#{msg.action}" style="width: 120px;" exportable="false">
+                                                <p:menuButton value="#{msg.manage}">
+                                                    <p:menuitem icon="fa fa-edit" class="text-info" value="#{msg.edit}" action="#{assetRegistrationController.editAssetRegistration(assetRegistration)}" immediate="true" update=":mainPanel"/>
+                                                    <p:menuitem  icon="fa fa-remove" class="text-danger" value="#{msg.delete}" action="#{assetRegistrationController.deleteAssetRegistration(assetRegistration)}" immediate="true"  update=":mainPanel"/>
+                                                </p:menuButton>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </h:form>
+                                </h:panelGroup>
+
+                                <h:panelGroup  rendered="#{assetRegistrationController.pageView.createView}">
+                                    <div class="col-md-6 mb-5 pt-3 mx-auto">
+                                        <h:form>
+                                            <div class="card-block">
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.asset} Code <span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <input type="text" jsf:value="#{assetRegistrationController.assetRegistration.assetCode}" required="true" class="form-control" placeholder="Enter asset code"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Date</label>
+                                                    <div class="col-md-8">
+                                                        <p:datePicker value="#{assetRegistrationController.assetRegistration.registrationDate}" pattern="#{msg.formatted_date}" yearNavigator="true" monthNavigator="true"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Asset Status <span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <h:selectOneMenu class="form-control" value="#{assetRegistrationController.assetRegistration.assetStatus}" required="true">
+                                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                                            <f:selectItems value="#{commonBeans.assetStatus}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Asset <span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <h:selectOneMenu class="form-control" value="#{assetRegistrationController.assetRegistration.asset}" required="true">
+                                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                                            <f:selectItems value="#{usercommonBeans.assetList}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Asset Location<span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <h:selectOneMenu class="form-control" value="#{assetRegistrationController.assetRegistration.assetLocation}" required="true">
+                                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                                            <f:selectItems value="#{usercommonBeans.assetLocationList}"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.description}</label>
+                                                    <div class="col-md-8">
+                                                        <textarea type="text" jsf:value="#{assetRegistrationController.assetRegistration.description}" class="form-control" placeholder="Enter description"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="text-center pt-3">
+                                                <p:commandButton class="kbtn-success" value="#{assetRegistrationController.optionText}" icon="#{msg.check_icon}" action="#{assetRegistrationController.saveAssetRegistration()}" ajax="false"/>
+                                                <p:commandButton class="kbtn-default ml-2" value="#{msg.clear}" icon="fa fa-trash" action="#{assetRegistrationController.clearAsset()}" update=":mainPanel"/>
+
+                                                <div class="float-right">
+                                                    <h:commandButton value="#{msg.close_page}" class="btn btn-danger btn-sm" immediate="true" action="#{assetRegistrationController.closePage()}">
+                                                        <p:ajax update="@form,:mainPanel"/>
+                                                    </h:commandButton>
+                                                </div>                 
+                                            </div>
+
+                                        </h:form>
+                                    </div>
+                                </h:panelGroup>
+
+                            </div>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

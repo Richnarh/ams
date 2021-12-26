@@ -6,6 +6,7 @@
 package com.khoders.ams.app.commons;
 
 import com.khoders.ams.app.entities.enums.AssetStatus;
+import com.khoders.ams.app.entities.enums.DispatchType;
 import com.khoders.resource.enums.ClientType;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -28,5 +29,9 @@ public class CommonBeans implements Serializable
     public List<ClientType> getClientTypeList()
     {
         return Arrays.asList(ClientType.values());
+    }
+    public List<DispatchType> getDispatchTypeList()
+    {
+        return Arrays.asList(DispatchType.values());
     }
 }

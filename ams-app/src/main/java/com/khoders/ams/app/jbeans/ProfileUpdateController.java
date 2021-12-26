@@ -51,8 +51,6 @@ public class ProfileUpdateController implements Serializable{
         }
     }
     
-    
-       
     public void updatePassword()
     {
         if(!password.equals(confirmPassword))
@@ -68,10 +66,9 @@ public class ProfileUpdateController implements Serializable{
         {
             String msg = "This password is same as the old one, please use a new password";
             FacesContext.getCurrentInstance().addMessage(null, 
-                        new FacesMessage(FacesMessage.SEVERITY_WARN, Msg.setMsg(msg), null));
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg(msg), null));
             return;
         }
-        
         
         appSession.getCurrentUser().setPassword(hashedPassword);
         

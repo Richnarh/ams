@@ -1,7 +1,8 @@
 <f:subview id="topnav" xmlns="http://www.w3.org/1999/xhtml"
            xmlns:h="http://xmlns.jcp.org/jsf/html"
            xmlns:f="http://xmlns.jcp.org/jsf/core"
-           xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+           xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+           xmlns:p="http://primefaces.org/ui">
 
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
@@ -14,21 +15,28 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
+<!--            <li class="nav-item active">
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
+            </li>-->
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <h:form>
+                <h:commandLink class="btn btn-default shadow-sm btn-sm" action="#{usercommonBeans.init()}" value="Refresh"/>
+            </h:form>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
+                  <span>#{appSession.currentUser.email}</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#{application.contextPath}/#{msg.side_menu_uri}/profile-update.xhtml"> <i class="fa fa-user mr-2"></i>Update Profile</a>
+                <a class="dropdown-item" href="#{application.contextPath}/#{msg.side_menu_uri}/update-password.xhtml"> <i class="fa fa-key mr-2"></i>Update Password</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <h:form>
+                    
+                    <p:commandLink action="#{loginController.doLogout()}" class="dropdown-item" value="Logout">
+                        <i class="fa fa-sign-out ml-2"></i>
+                    </p:commandLink>
+                </h:form>
               </div>
             </li>
           </ul>

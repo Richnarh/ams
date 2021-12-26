@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">  
+
+    <h:body>
+        <ui:composition template="../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                Dispatch
+            </ui:define>
+
+            <ui:define name="pageContent">
+                <div class="col-md-12">
+                    <div class="row pt-5">
+                        <div class="col-md-4">
+                            <h:form id="assetDispatchForm" class="spaced-form">
+                                <h:panelGrid columns="2">
+                                    <span>#{msg.asset}</span>
+                                    <h:selectOneMenu class="form-control" value="#{assetDispatchController.assetDispatch.asset}" required="true">
+                                        <f:selectItem itemLabel="#{msg.choose}"/>
+                                        <f:selectItems value="#{usercommonBeans.assetList}"/>
+                                    </h:selectOneMenu>
+
+                                    <span>#{msg.asset} Status</span>
+                                    <h:selectOneMenu class="form-control" value="#{assetDispatchController.assetDispatch.assetStatus}" required="true">
+                                        <f:selectItem itemLabel="#{msg.choose}"/>
+                                        <f:selectItems value="#{commonBeans.assetStatus}"/>
+                                    </h:selectOneMenu>
+                        
+                                    <span>Dispatch Type</span>
+                                    <h:selectOneMenu class="form-control" value="#{assetDispatchController.assetDispatch.dispatchType}" required="true">
+                                        <f:selectItem itemLabel="#{msg.choose}"/>
+                                        <f:selectItems value="#{commonBeans.dispatchTypeList}"/>
+                                        <p:ajax listener="#{assetDispatchController.auction()}" update="isAction"/>
+                                    </h:selectOneMenu>
+                                    
+                                    <span>Auction Cost</span>
+                                    <p:inputText rendered="#{assetDispatchController.isAuction == true}" id="isAction" value="#{assetDispatchController.assetDispatch.auctionCost}"/>
+                                    
+                                    <span>Dispatch Date</span>
+                                    <p:datePicker pattern="#{msg.formatted_date}" value="#{assetDispatchController.assetDispatch.dispatchDate}" yearNavigator="true" monthNavigator="true" required="true"/>
+
+                                    <span>#{msg.description}</span>
+                                    <p:inputTextarea value="#{assetDispatchController.assetDispatch.description}"/>
+                                </h:panelGrid>
+                                <br/>
+                                <p:commandButton icon="#{msg.check_icon_circle}" class="kbtn-success mx-3" value="#{assetDispatchController.optionText}" action="#{assetDispatchController.saveAssetDispatch()}" update="@form, :assetDispatchTable"/>
+                                <p:commandButton icon="#{msg.clear_icon}" class="kbtn-default" value="#{msg.clear}" immediate="true" action="#{assetDispatchController.clearAssetDispatch()}" update="@form"/>
+                            </h:form>
+                        </div>
+                        <div class="col-md-8">
+                            <h:form id="assetDispatchTable">
+                                <p:dataTable value="#{assetDispatchController.assetDispatchList}" var="assetDispatch" paginator="true" paginatorPosition="bottom" rows="12">
+                                    <p:column headerText="Code">
+                                        #{assetDispatch.referenceNo}
+                                    </p:column>
+
+                                    <p:column headerText="Asset">
+                                        #{assetDispatch.asset.assetName}
+                                    </p:column>
+
+                                    <p:column headerText="Status">
+                                        #{assetDispatch.assetStatus}
+                                    </p:column>
+
+                                    <p:column headerText="Dispatch Type">
+                                        #{assetDispatch.dispatchType.label}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.description}">
+                                        #{assetDispatch.description}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.action}" style="width: 120px;" exportable="false">
+                                        <p:menuButton value="#{msg.manage}">
+                                            <p:menuitem icon="fa fa-edit" class="text-info" value="#{msg.edit}" action="#{assetDispatchController.editAssetDispatch(assetDispatch)}" immediate="true" update=":assetDispatchForm"/>
+                                            <p:menuitem  icon="fa fa-remove" class="text-danger" value="#{msg.delete}" action="#{assetDispatchController.deleteAssetDispatch(assetDispatch)}" immediate="true"  update="@form"/>
+                                        </p:menuButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

@@ -5,12 +5,14 @@ C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\jbeans\AssetLo
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\UserModel.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\entities\Asset.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\entities\AssetRegistration.java
+C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\jbeans\converters\AssetLocationConverter.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\jbeans\DepartmentController.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\entities\UserAccountRecord.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\jbeans\converters\AssetTypeConverter.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\entities\Client.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\jbeans\AssetController.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\listener\SessionListener.java
+C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\jbeans\AssetDispatchController.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\entities\Faculty.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\entities\AssetLocation.java
 C:\khoders\java-web\ams\ams-app\src\main\java\com\khoders\ams\app\services\UserAccountService.java

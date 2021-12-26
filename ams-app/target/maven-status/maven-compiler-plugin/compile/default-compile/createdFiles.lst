@@ -14,6 +14,7 @@ com\khoders\ams\app\entities\AssetLocation.class
 com\khoders\ams\app\jbeans\converters\AssetConverter.class
 com\khoders\ams\app\commons\CommonBeans.class
 com\khoders\ams\app\entities\Complaint.class
+com\khoders\ams\app\jbeans\converters\AssetLocationConverter.class
 com\khoders\ams\app\jbeans\converters\FacultyConverter.class
 com\khoders\ams\app\jbeans\AssetCategoryController.class
 com\khoders\ams\app\jbeans\converters\AssetTypeConverter.class
@@ -26,6 +27,7 @@ com\khoders\ams\app\entities\AssetDispatch.class
 com\khoders\ams\app\jbeans\AssetLocationController.class
 com\khoders\ams\app\listener\SessionListener.class
 com\khoders\ams\app\Pages.class
+com\khoders\ams\app\jbeans\AssetDispatchController.class
 com\khoders\ams\app\services\UserAccountService.class
 com\khoders\ams\app\entities\UserAccountRecord.class
 com\khoders\ams\app\UserModel.class
