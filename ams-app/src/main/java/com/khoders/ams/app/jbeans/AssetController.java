@@ -5,9 +5,13 @@
  */
 package com.khoders.ams.app.jbeans;
 
+import com.khoders.ams.app.ReportFiles;
+import com.khoders.resource.reports.ReportManager;
 import com.khoders.ams.app.entities.Asset;
+import com.khoders.ams.app.jbeans.reportModels.AssetModel;
 import com.khoders.ams.app.listener.AppSession;
 import com.khoders.ams.app.services.AssetService;
+import com.khoders.ams.app.services.XtractService;
 import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.CollectionList;
 import com.khoders.resource.utilities.DateRangeUtil;
@@ -37,6 +41,9 @@ public class AssetController implements Serializable
     @Inject
     private AppSession appSession;
     @Inject private AssetService assetService;
+    @Inject private XtractService xtractService;
+    @Inject private ReportManager reportManager;
+    
     private Asset asset = new Asset();
     private List<Asset> assetList = new LinkedList<>();
     private DateRangeUtil dateRange = new DateRangeUtil();
@@ -103,6 +110,19 @@ public class AssetController implements Serializable
         {
             e.printStackTrace();
         }
+    }
+    
+    public void printAsset()
+    {
+        assetList = assetService.getAssets(dateRange);
+        List<AssetModel> assetModelList = new LinkedList<>();
+        
+        if(!assetList.isEmpty())
+        {
+            AssetModel assetModel = xtractService.extractToAsset(assetList, new AssetModel());
+            assetModelList.add(assetModel);
+        }
+        reportManager.createReport(assetModelList, ReportFiles.ASSET_REPORT);
     }
 
     public void editAsset(Asset asset)

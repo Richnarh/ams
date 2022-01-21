@@ -12,8 +12,12 @@ import com.khoders.ams.app.entities.AssetLocation;
 import com.khoders.ams.app.entities.AssetRegistration;
 import com.khoders.ams.app.entities.Client;
 import com.khoders.ams.app.entities.Complaint;
+import com.khoders.ams.app.entities.CubicleAllocation;
+import com.khoders.ams.app.entities.DamagedAsset;
 import com.khoders.ams.app.entities.Department;
 import com.khoders.ams.app.entities.Faculty;
+import com.khoders.ams.app.entities.Inspection;
+import com.khoders.ams.app.entities.Vendor;
 import com.khoders.ams.app.listener.AppSession;
 import com.khoders.resource.jpa.CrudApi;
 import com.khoders.resource.utilities.DateRangeUtil;
@@ -49,6 +53,22 @@ public class AssetService
                 .getResultList();
     }
     
+    public List<CubicleAllocation> getCubicleAllocationList()
+    {
+        String queryString = "SELECT e FROM CubicleAllocation e WHERE e.userAccount=?1";
+        return crudApi.getEm().createQuery(queryString, CubicleAllocation.class)
+                .setParameter(1, appSession.getCurrentUser())
+                .getResultList();
+    }
+    
+    public List<Vendor> getVendorList()
+    {
+        String queryString = "SELECT e FROM Vendor e WHERE e.userAccount=?1";
+        return crudApi.getEm().createQuery(queryString, Vendor.class)
+                .setParameter(1, appSession.getCurrentUser())
+                .getResultList();
+    }
+    
     public List<AssetRegistration> getRegisteredAssetList()
     {
         try
@@ -71,6 +91,22 @@ public class AssetService
         {
             String queryString = "SELECT e FROM AssetCategory e WHERE e.userAccount=?1";
             TypedQuery<AssetCategory> typedQuery = crudApi.getEm().createQuery(queryString, AssetCategory.class)
+                    .setParameter(1, appSession.getCurrentUser());
+            
+                   return typedQuery.getResultList();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+    
+    public List<Inspection> getInspectionList()
+    {
+        try
+        {
+            String queryString = "SELECT e FROM Inspection e WHERE e.userAccount=?1";
+            TypedQuery<Inspection> typedQuery = crudApi.getEm().createQuery(queryString, Inspection.class)
                     .setParameter(1, appSession.getCurrentUser());
             
                    return typedQuery.getResultList();
@@ -132,6 +168,21 @@ public class AssetService
         {
             String queryString = "SELECT e FROM Client e WHERE e.userAccount=?1";
             TypedQuery<Client> typedQuery = crudApi.getEm().createQuery(queryString, Client.class)
+                    .setParameter(1, appSession.getCurrentUser());
+            
+                   return typedQuery.getResultList();
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+    public List<DamagedAsset> getDamagedAssetList()
+    {
+        try
+        {
+            String queryString = "SELECT e FROM DamagedAsset e WHERE e.userAccount=?1";
+            TypedQuery<DamagedAsset> typedQuery = crudApi.getEm().createQuery(queryString, DamagedAsset.class)
                     .setParameter(1, appSession.getCurrentUser());
             
                    return typedQuery.getResultList();

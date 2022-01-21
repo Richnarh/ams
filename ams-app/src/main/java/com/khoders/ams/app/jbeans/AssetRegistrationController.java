@@ -5,10 +5,14 @@
  */
 package com.khoders.ams.app.jbeans;
 
+import com.khoders.ams.app.ReportFiles;
 import com.khoders.ams.app.entities.AssetRegistration;
+import com.khoders.ams.app.jbeans.reportModels.AssetRegModel;
 import com.khoders.ams.app.listener.AppSession;
 import com.khoders.ams.app.services.AssetService;
+import com.khoders.ams.app.services.XtractService;
 import com.khoders.resource.jpa.CrudApi;
+import com.khoders.resource.reports.ReportManager;
 import com.khoders.resource.utilities.CollectionList;
 import com.khoders.resource.utilities.DateRangeUtil;
 import com.khoders.resource.utilities.FormView;
@@ -37,6 +41,9 @@ public class AssetRegistrationController implements Serializable
     @Inject
     private AppSession appSession;
     @Inject private AssetService assetService;
+    @Inject private XtractService xtractService;
+    @Inject private ReportManager reportManager;
+    
     private AssetRegistration assetRegistration = new AssetRegistration();
     private List<AssetRegistration> assetRegistrationList = new LinkedList<>();
     private DateRangeUtil dateRange = new DateRangeUtil();
@@ -103,6 +110,18 @@ public class AssetRegistrationController implements Serializable
         {
             e.printStackTrace();
         }
+    }
+    
+    public void printAssetRegistration(){
+         assetRegistrationList = assetService.getAssetRegistration(dateRange); 
+        List<AssetRegModel> assetModelList = new LinkedList<>();
+        
+        if(!assetRegistrationList.isEmpty())
+        {
+            AssetRegModel assetModel = xtractService.extractToAssetReg(assetRegistrationList, new AssetRegModel());
+            assetModelList.add(assetModel);
+        }
+        reportManager.createReport(assetModelList, ReportFiles.ASSET_REG_REPORT);
     }
 
     public void editAssetRegistration(AssetRegistration assetRegistration)

@@ -1,6 +1,5 @@
 package com.khoders.ams.app.entities;
 
-import com.khoders.resource.utilities.SystemUtils;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;

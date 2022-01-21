@@ -34,12 +34,11 @@
                                     <h:selectOneMenu class="form-control" value="#{assetDispatchController.assetDispatch.dispatchType}" required="true">
                                         <f:selectItem itemLabel="#{msg.choose}"/>
                                         <f:selectItems value="#{commonBeans.dispatchTypeList}"/>
-                                        <p:ajax listener="#{assetDispatchController.auction()}" update="isAction"/>
                                     </h:selectOneMenu>
                                     
                                     <span>Auction Cost</span>
-                                    <p:inputText rendered="#{assetDispatchController.isAuction == true}" id="isAction" value="#{assetDispatchController.assetDispatch.auctionCost}"/>
-                                    
+                                    <p:inputText value="#{assetDispatchController.assetDispatch.auctionCost}"/>
+
                                     <span>Dispatch Date</span>
                                     <p:datePicker pattern="#{msg.formatted_date}" value="#{assetDispatchController.assetDispatch.dispatchDate}" yearNavigator="true" monthNavigator="true" required="true"/>
 

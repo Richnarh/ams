@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">  
+
+    <h:body>
+        <ui:composition template="../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                Damaged Assets
+            </ui:define>
+
+            <ui:define name="pageContent">
+                <div class="col-md-12">
+                    <div class="row pt-5">
+                        <div class="col-md-4">
+                            <h:form id="damagedAssetForm" class="spaced-form">
+                                <h:panelGrid columns="2">
+                                    <span>#{msg.asset} Category</span>
+                                    <h:selectOneMenu class="form-control" value="#{damagedAssetController.damagedAsset.assetCategory}" required="true">
+                                        <f:selectItem itemLabel="#{msg.choose}"/>
+                                        <f:selectItems value="#{usercommonBeans.assetCategoryList}"/>
+                                    </h:selectOneMenu>
+
+                                    <span>#{msg.asset}</span>
+                                    <h:selectOneMenu class="form-control" value="#{damagedAssetController.damagedAsset.asset}" required="true">
+                                        <f:selectItem itemLabel="#{msg.choose}"/>
+                                        <f:selectItems value="#{usercommonBeans.assetList}"/>
+                                    </h:selectOneMenu>
+                        
+                                    <span>#{msg.asset} Location</span>
+                                    <h:selectOneMenu class="form-control" value="#{damagedAssetController.damagedAsset.assetLocation}" required="true">
+                                        <f:selectItem itemLabel="#{msg.choose}"/>
+                                        <f:selectItems value="#{usercommonBeans.assetLocationList}"/>
+                                    </h:selectOneMenu>
+                         
+                                    <span>#{msg.description}</span>
+                                    <p:inputTextarea value="#{damagedAssetController.damagedAsset.description}"/>
+                                </h:panelGrid>
+                                <br/>
+                                <p:commandButton icon="#{msg.check_icon_circle}" class="kbtn-success mx-3" value="#{damagedAssetController.optionText}" action="#{damagedAssetController.saveDamagedAsset()}" update="@form, :damagedAssetTable"/>
+                                <p:commandButton icon="#{msg.clear_icon}" class="kbtn-default" value="#{msg.clear}" immediate="true" action="#{damagedAssetController.clearDamagedAsset()}" update="@form"/>
+                            </h:form>
+                        </div>
+                        <div class="col-md-8">
+                            <h:form id="damagedAssetTable">
+                                
+                                <h:commandLink target="_blank" class="mx-2 btn btn-info btn-sm" value="Print Damaged Asset" action="#{damagedAssetController.printDamagedAsset()}"/>
+                                
+                                <p:dataTable value="#{damagedAssetController.damagedAssetList}" var="damagedAsset" paginator="true" paginatorPosition="bottom" rows="12">
+                                    <p:column headerText="Code">
+                                        #{damagedAsset.referenceNo}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.asset} Category">
+                                        #{damagedAsset.assetCategory.categoryName}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.asset}">
+                                        #{damagedAsset.asset.assetName}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.asset} Location">
+                                        #{damagedAsset.assetLocation.locationName}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.description}">
+                                        #{damagedAsset.description}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.action}" style="width: 120px;" exportable="false">
+                                        <p:menuButton value="#{msg.manage}">
+                                            <p:menuitem icon="fa fa-edit" class="text-info" value="#{msg.edit}" action="#{damagedAssetController.editDamagedAsset(damagedAsset)}" immediate="true" update=":damagedAssetForm"/>
+                                            <p:menuitem  icon="fa fa-remove" class="text-danger" value="#{msg.delete}" action="#{damagedAssetController.deleteDamagedAsset(damagedAsset)}" immediate="true"  update="@form"/>
+                                        </p:menuButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+

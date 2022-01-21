@@ -11,6 +11,7 @@ import com.khoders.ams.app.entities.AssetLocation;
 import com.khoders.ams.app.entities.Client;
 import com.khoders.ams.app.entities.Department;
 import com.khoders.ams.app.entities.Faculty;
+import com.khoders.ams.app.entities.Vendor;
 import com.khoders.ams.app.services.AssetService;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -36,6 +37,7 @@ public class UsercommonBeans implements Serializable
     private List<Client> clientList = new LinkedList<>();
     private List<AssetCategory> assetCategoryList = new LinkedList<>();
     private List<AssetLocation> assetLocationList = new LinkedList<>();
+    private List<Vendor> vendorList = new LinkedList<>();
     
     @PostConstruct
     public void init()
@@ -46,6 +48,7 @@ public class UsercommonBeans implements Serializable
       clientList = assetService.getClientList();
       assetCategoryList = assetService.getAssetCategoryList();
       assetLocationList = assetService.getAssetLocationList();
+      vendorList = assetService.getVendorList();
     }        
 
     public List<Asset> getAssetList()
@@ -76,6 +79,11 @@ public class UsercommonBeans implements Serializable
     public List<AssetLocation> getAssetLocationList()
     {
         return assetLocationList;
+    }
+
+    public List<Vendor> getVendorList()
+    {
+        return vendorList;
     }
     
 }

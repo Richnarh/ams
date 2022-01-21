@@ -6,7 +6,6 @@
 package com.khoders.ams.app.jbeans;
 
 import com.khoders.ams.app.entities.AssetDispatch;
-import com.khoders.ams.app.entities.enums.DispatchType;
 import com.khoders.ams.app.listener.AppSession;
 import com.khoders.ams.app.services.AssetService;
 import com.khoders.resource.jpa.CrudApi;
@@ -40,7 +39,6 @@ public class AssetDispatchController implements Serializable
     private List<AssetDispatch> assetDispatchList = new LinkedList<>();
     
     FormView pageView = FormView.listForm();
-    private boolean isAuction = false;
     
     private String optionText;
     
@@ -49,13 +47,6 @@ public class AssetDispatchController implements Serializable
     {
        assetDispatchList = assetService.getAssetDispatchList();
        clearAssetDispatch();
-    }
-    
-    public void auction(){
-        if(assetDispatch.getDispatchType() == DispatchType.AUCTION)
-        {
-            isAuction = true;
-        }
     }
     
     public void saveAssetDispatch()
@@ -115,6 +106,8 @@ public class AssetDispatchController implements Serializable
        SystemUtils.resetJsfUI();
     }
     
+
+    
     public AssetDispatch getAssetDispatch()
     {
         return assetDispatch;
@@ -145,14 +138,4 @@ public class AssetDispatchController implements Serializable
         return optionText;
     }
 
-    public boolean isIsAuction()
-    {
-        return isAuction;
-    }
-
-    public void setIsAuction(boolean isAuction)
-    {
-        this.isAuction = isAuction;
-    }
-    
 }

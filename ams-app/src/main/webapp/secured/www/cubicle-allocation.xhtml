@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">  
+
+    <h:body>
+        <ui:composition template="../templatesUI.xhtml">
+            <ui:define name="pageTitle">
+                Cubicle Allocation
+            </ui:define>
+
+            <ui:define name="pageContent">
+                <div class="col-md-12">
+                    <div class="row pt-5">
+                        <div class="col-md-4">
+                            <h:form id="cubicleAllocationForm" class="spaced-form">
+                                <h:panelGrid columns="2">
+                                    <span>Cubicle Name</span>
+                                    <p:inputText value="#{cubicleAllocationController.cubicleAllocation.cubicleName}"/>
+
+
+                                    <span>#{msg.asset}</span>
+                                    <h:selectOneMenu class="form-control" value="#{cubicleAllocationController.cubicleAllocation.vendor}" required="true">
+                                        <f:selectItem itemLabel="#{msg.choose}"/>
+                                        <f:selectItems value="#{usercommonBeans.vendorList}"/>
+                                    </h:selectOneMenu>
+                        
+                                    <span>#{msg.description}</span>
+                                    <p:inputTextarea value="#{cubicleAllocationController.cubicleAllocation.description}"/>
+                                </h:panelGrid>
+                                <br/>
+                                <p:commandButton icon="#{msg.check_icon_circle}" class="kbtn-success mx-3" value="#{cubicleAllocationController.optionText}" action="#{cubicleAllocationController.saveCubicleAllocation()}" update="@form, :cubicleAllocationTable"/>
+                                <p:commandButton icon="#{msg.clear_icon}" class="kbtn-default" value="#{msg.clear}" immediate="true" action="#{cubicleAllocationController.clearCubicleAllocation()}" update="@form"/>
+                            </h:form>
+                        </div>
+                        <div class="col-md-8">
+                            <h:form id="cubicleAllocationTable">
+                                <p:dataTable value="#{cubicleAllocationController.cubicleAllocationList}" var="cubicleAllocation" paginator="true" paginatorPosition="bottom" rows="12">
+                                    <p:column headerText="Code">
+                                        #{cubicleAllocation.referenceNo}
+                                    </p:column>
+
+                                    <p:column headerText="Cubicle Name">
+                                        #{cubicleAllocation.cubicleName}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.vendor}">
+                                        #{cubicleAllocation.vendor.fullName}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.description}">
+                                        #{cubicleAllocation.description}
+                                    </p:column>
+
+                                    <p:column headerText="#{msg.action}" style="width: 120px;" exportable="false">
+                                        <p:menuButton value="#{msg.manage}">
+                                            <p:menuitem icon="fa fa-edit" class="text-info" value="#{msg.edit}" action="#{cubicleAllocationController.editCubicleAllocation(cubicleAllocation)}" immediate="true" update=":cubicleAllocationForm"/>
+                                            <p:menuitem  icon="fa fa-remove" class="text-danger" value="#{msg.delete}" action="#{cubicleAllocationController.deleteCubicleAllocation(cubicleAllocation)}" immediate="true"  update="@form"/>
+                                        </p:menuButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
+
