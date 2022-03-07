@@ -107,13 +107,16 @@ public class DamagedAssetController implements Serializable
     
     public void printDamagedAsset(){
         damagedAssetList = assetService.getDamagedAssetList();
-        List<DamagedAssetModel> damagedAssetModelList = new LinkedList<>();
         
-        if(!damagedAssetList.isEmpty())
+        
+        if(damagedAssetList.isEmpty())
         {
-            DamagedAssetModel model = xtractService.extractToDamagedAsset(damagedAssetList, new DamagedAssetModel());
-            damagedAssetModelList.add(model);
+            FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, Msg.setMsg("The report is empty!"), null)); 
+            return;
         }
+            List<DamagedAssetModel> damagedAssetModelList = xtractService.extractToDamagedAsset(damagedAssetList);
+            
         reportManager.createReport(damagedAssetModelList, ReportFiles.DAMAGED_ASSET_REPORT);
     }
     

@@ -37,7 +37,7 @@
                                                               monthNavigator="true" yearNavigator="true"/>
 
                                                 <h:commandButton class="mx-2 btn btn-info btn-sm" value="Search Asset" action="#{assetController.filterAsset()}"/>
-                                                <h:commandLink target="_blank" class="mx-2 btn btn-info btn-sm" value="Print Asset" action="#{assetController.printAsset()}"/>
+                                                <h:commandLink target="_blank" class="mx-2 btn btn-info btn-sm" value="Generate Report" action="#{assetController.printAsset()}"/>
 
                                                 <div class="float-right">
                                                     <h:commandButton value="#{msg.new} #{msg.asset}" class="btn btn-outline-primary btn-sm"
@@ -58,6 +58,9 @@
 
                                             <p:rowExpansion>
                                                 <h:panelGrid columns="2">
+                                                    <span>#{msg.location}</span>
+                                                    <h:outputText value="#{asset.assetLocation.locationName}"/>
+                                                    
                                                     <span>#{msg.created_date}</span>
                                                     <h:outputText value="#{asset.createdDate}">
                                                         <f:convertDateTime pattern="#{msg.formatted_date}" type="localDate"/>
@@ -69,45 +72,33 @@
                                             </p:rowExpansion>
 
                                             <p:column headerText="#{msg.date}">
-                                                <h:outputText value="#{asset.purchasedDate}">
+                                                <h:outputText value="#{asset.regDate}">
                                                     <f:convertDateTime type="localDate" pattern="#{msg.formatted_date}"/>
                                                 </h:outputText>
                                             </p:column>
 
                                             <p:column headerText="#{msg.asset} Code">
-                                                <h:outputText value="#{asset.serialNumber}"/>
+                                                <h:outputText value="#{asset.assetCode}"/>
                                             </p:column>
 
                                             <p:column headerText="#{msg.asset} Name" filterBy="#{asset.assetName}" filterMatchMode="contains">
                                                 <h:outputText value="#{asset.assetName}"/>
                                             </p:column>
+                                            
+                                            <p:column headerText="#{msg.department}">
+                                                <h:outputText value="#{asset.department.deptName}"/>
+                                            </p:column>
 
                                             <p:column headerText="#{msg.asset} Category">
                                                 <h:outputText value="#{asset.assetCategory.categoryName}"/>
                                             </p:column>
+                                           
+                                            <p:column headerText="#{msg.asset} Status">
+                                                <h:outputText value="#{asset.assetStatus.label}"/>
+                                            </p:column>
 
                                             <p:column headerText="Life Span">
                                                 <h:outputText value="#{asset.expectedLifeSpan}"/>
-                                            </p:column>
-
-                                            <p:column headerText="#{msg.client}">
-                                                <h:outputText value="#{asset.client.clientName}"/>
-                                            </p:column>
-
-                                            <p:column headerText="#{msg.qty}" class="text-right" style="width: 50px">
-                                                <h:outputText value="#{asset.quantity}"/>
-                                            </p:column>
-
-                                            <p:column headerText="#{msg.unit_cost}" class="text-right" style="width: 80px">
-                                                <h:outputText value="#{asset.unitCost}">
-                                                    <f:convertNumber pattern="#{msg.money_pattern}"/>
-                                                </h:outputText>
-                                            </p:column>
-
-                                            <p:column headerText="#{msg.total_amount}" class="text-right" style="width: 100px">
-                                                <h:outputText value="#{asset.totalAmount}">
-                                                    <f:convertNumber pattern="#{msg.money_pattern}"/>
-                                                </h:outputText>
                                             </p:column>
 
                                             <p:column headerText="#{msg.action}" style="width: 120px;" exportable="false">
@@ -126,15 +117,34 @@
                                             <div class="card-block">
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label">Serial Number <span class="text-danger">*</span> </label>
+                                                    <label class="col-sm-4 col-form-label">#{msg.asset} Code <span class="text-danger">*</span> </label>
                                                     <div class="col-md-8">
-                                                        <input type="text" jsf:value="#{assetController.asset.serialNumber}" required="true" class="form-control" placeholder="Enter asset code"/>
+                                                        <input type="text" jsf:value="#{assetController.asset.assetCode}" required="true" class="form-control" placeholder="Enter asset code"/>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
                                                     <label class="col-sm-4 col-form-label">#{msg.asset} Name <span class="text-danger">*</span> </label>
                                                     <div class="col-md-8">
                                                         <input type="text" jsf:value="#{assetController.asset.assetName}" required="true" class="form-control" placeholder="Enter asset name"/>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.faculty} <span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <h:selectOneMenu class="form-control" value="#{assetController.asset.faculty}" required="true">
+                                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                                            <f:selectItems value="#{usercommonBeans.facultyList}"/>
+                                                            <p:ajax listener="#{assetController.fetchDepartment()}" update="department"/>
+                                                        </h:selectOneMenu>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.department} <span class="text-danger">*</span> </label>
+                                                    <div class="col-md-8">
+                                                        <h:selectOneMenu id="department" class="form-control" value="#{assetController.asset.department}" required="true">
+                                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                                            <f:selectItems value="#{assetController.departmentList}"/>
+                                                        </h:selectOneMenu>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
@@ -147,20 +157,21 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label">#{msg.client} <span class="text-danger">*</span> </label>
+                                                    <label class="col-sm-4 col-form-label">Asset Status <span class="text-danger">*</span> </label>
                                                     <div class="col-md-8">
-                                                        <h:selectOneMenu class="form-control" value="#{assetController.asset.client}" required="true">
+                                                        <h:selectOneMenu class="form-control" value="#{assetController.asset.assetStatus}" required="true">
                                                             <f:selectItem itemLabel="#{msg.choose}"/>
-                                                            <f:selectItems value="#{usercommonBeans.clientList}"/>
+                                                            <f:selectItems value="#{commonBeans.assetStatus}"/>
                                                         </h:selectOneMenu>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label">#{msg.unit_cost}</label>
+                                                 <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">Reg. Date</label>
                                                     <div class="col-md-8">
-                                                        <input type="text" jsf:value="#{assetController.asset.unitCost}" required="true" class="form-control" placeholder="Enter unit cost"/>
+                                                        <p:datePicker value="#{assetController.asset.regDate}" pattern="#{msg.formatted_date}" yearNavigator="true" monthNavigator="true"/>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="form-group row">
                                                     <label class="col-sm-4 col-form-label">Life span</label>
                                                     <div class="col-md-8">
@@ -168,21 +179,18 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label">#{msg.purchase_date}</label>
+                                                    <label class="col-sm-4 col-form-label">Asset Location<span class="text-danger">*</span> </label>
                                                     <div class="col-md-8">
-                                                        <p:datePicker value="#{assetController.asset.purchasedDate}" pattern="#{msg.formatted_date}" yearNavigator="true" monthNavigator="true"/>
+                                                        <h:selectOneMenu class="form-control" value="#{assetController.asset.assetLocation}" required="true">
+                                                            <f:selectItem itemLabel="#{msg.choose}"/>
+                                                            <f:selectItems value="#{usercommonBeans.assetLocationList}"/>
+                                                        </h:selectOneMenu>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label">#{msg.quantity}</label>
+                                                 <div class="form-group row">
+                                                    <label class="col-sm-4 col-form-label">#{msg.description}</label>
                                                     <div class="col-md-8">
-                                                        <input type="text" jsf:value="#{assetController.asset.quantity}" required="true" class="form-control" placeholder="Enter quantity"/>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-4 col-form-label">#{msg.total_amount}</label>
-                                                    <div class="col-md-8">
-                                                        <input type="text" jsf:value="#{assetController.asset.totalAmount}" required="true" class="form-control" placeholder="Enter total amount"/>
+                                                        <textarea type="text" jsf:value="#{assetController.asset.description}" class="form-control" placeholder="Enter description"/>
                                                     </div>
                                                 </div>
                                             </div>

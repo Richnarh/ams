@@ -7,77 +7,102 @@ import java.time.LocalDate;
  * @author richa
  */
 public class AssetModel {
-    private String serialNumber;
+    private String assetCode;
+    private LocalDate regDate;
+    private String assetLocation;
+    private String assetStatus;
     private String assetName;
-    private double unitCost;
-    private int quantity;
-    private int expectedLifeSpan;
-    private LocalDate purchasedDate;
-    private String client;
+    private String expectedLifeSpan;
     private String assetCategory;
-
-    public String getSerialNumber() {
-        return serialNumber;
+    private String department;
+    private String description;
+   
+    public String getAssetCode()
+    {
+        return assetCode;
     }
 
-    public void setSerialNumber(String serialNumber) {
-        this.serialNumber = serialNumber;
+    public void setAssetCode(String assetCode)
+    {
+        this.assetCode = assetCode;
     }
 
-    public String getAssetName() {
+    public LocalDate getRegDate()
+    {
+        return regDate;
+    }
+
+    public void setRegDate(LocalDate regDate)
+    {
+        this.regDate = regDate;
+    }
+
+    public String getAssetLocation()
+    {
+        return assetLocation;
+    }
+
+    public void setAssetLocation(String assetLocation)
+    {
+        this.assetLocation = assetLocation;
+    }
+
+    public String getAssetStatus()
+    {
+        return assetStatus;
+    }
+
+    public void setAssetStatus(String assetStatus)
+    {
+        this.assetStatus = assetStatus;
+    }
+
+    public String getAssetName()
+    {
         return assetName;
     }
 
-    public void setAssetName(String assetName) {
+    public void setAssetName(String assetName)
+    {
         this.assetName = assetName;
     }
 
-    public double getUnitCost() {
-        return unitCost;
-    }
-
-    public void setUnitCost(double unitCost) {
-        this.unitCost = unitCost;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public int getExpectedLifeSpan() {
+    public String getExpectedLifeSpan()
+    {
         return expectedLifeSpan;
     }
 
-    public void setExpectedLifeSpan(int expectedLifeSpan) {
+    public void setExpectedLifeSpan(String expectedLifeSpan)
+    {
         this.expectedLifeSpan = expectedLifeSpan;
     }
 
-    public LocalDate getPurchasedDate() {
-        return purchasedDate;
-    }
-
-    public void setPurchasedDate(LocalDate purchasedDate) {
-        this.purchasedDate = purchasedDate;
-    }
-
-    public String getClient() {
-        return client;
-    }
-
-    public void setClient(String client) {
-        this.client = client;
-    }
-
-    public String getAssetCategory() {
+    public String getAssetCategory()
+    {
         return assetCategory;
     }
 
-    public void setAssetCategory(String assetCategory) {
+    public void setAssetCategory(String assetCategory)
+    {
         this.assetCategory = assetCategory;
     }
-    
+
+    public String getDepartment()
+    {
+        return department;
+    }
+
+    public void setDepartment(String department)
+    {
+        this.department = department;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

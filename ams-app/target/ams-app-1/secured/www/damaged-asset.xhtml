@@ -18,11 +18,6 @@
                         <div class="col-md-4">
                             <h:form id="damagedAssetForm" class="spaced-form">
                                 <h:panelGrid columns="2">
-                                    <span>#{msg.asset} Category</span>
-                                    <h:selectOneMenu class="form-control" value="#{damagedAssetController.damagedAsset.assetCategory}" required="true">
-                                        <f:selectItem itemLabel="#{msg.choose}"/>
-                                        <f:selectItems value="#{usercommonBeans.assetCategoryList}"/>
-                                    </h:selectOneMenu>
 
                                     <span>#{msg.asset}</span>
                                     <h:selectOneMenu class="form-control" value="#{damagedAssetController.damagedAsset.asset}" required="true">
@@ -47,18 +42,14 @@
                         <div class="col-md-8">
                             <h:form id="damagedAssetTable">
                                 
-                                <h:commandLink target="_blank" class="mx-2 btn btn-info btn-sm" value="Print Damaged Asset" action="#{damagedAssetController.printDamagedAsset()}"/>
+                                <h:commandLink target="_blank" class="mx-2 btn btn-info btn-sm" value="Generate Report" action="#{damagedAssetController.printDamagedAsset()}"/>
                                 
-                                <p:dataTable value="#{damagedAssetController.damagedAssetList}" var="damagedAsset" paginator="true" paginatorPosition="bottom" rows="12">
+                                <p:dataTable class="pt-2" value="#{damagedAssetController.damagedAssetList}" var="damagedAsset" paginator="true" paginatorPosition="bottom" rows="12">
                                     <p:column headerText="Code">
                                         #{damagedAsset.referenceNo}
                                     </p:column>
 
-                                    <p:column headerText="#{msg.asset} Category">
-                                        #{damagedAsset.assetCategory.categoryName}
-                                    </p:column>
-
-                                    <p:column headerText="#{msg.asset}">
+                                    <p:column headerText="#{msg.asset}" filterBy="#{damagedAsset.asset.assetName}" filterMatchMode="contains">
                                         #{damagedAsset.asset.assetName}
                                     </p:column>
 

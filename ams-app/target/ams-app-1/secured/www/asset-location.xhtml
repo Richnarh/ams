@@ -37,8 +37,8 @@
                                         #{assetLocation.locationCode}
                                     </p:column>
                                     
-                                    <p:column headerText="Name" style="width: 100px;">
-                                        #{assetLocation.locationName}
+                                    <p:column headerText="Name" style="width: 100px;" filterBy="#{assetLocation.locationName}" filterMatchMode="contains">
+                                        <h:outputText value="#{assetLocation.locationName}"/>
                                     </p:column>
                                     
                                     <p:column headerText="#{msg.action}" style="width: 70px;">

@@ -7,9 +7,8 @@ package com.khoders.ams.app.services;
 
 import com.khoders.ams.app.entities.Asset;
 import com.khoders.ams.app.entities.AssetCategory;
-import com.khoders.ams.app.entities.AssetDispatch;
+import com.khoders.ams.app.entities.Auction;
 import com.khoders.ams.app.entities.AssetLocation;
-import com.khoders.ams.app.entities.AssetRegistration;
 import com.khoders.ams.app.entities.Client;
 import com.khoders.ams.app.entities.Complaint;
 import com.khoders.ams.app.entities.CubicleAllocation;
@@ -45,10 +44,10 @@ public class AssetService
                 .getResultList();
     }
     
-    public List<AssetDispatch> getAssetDispatchList()
+    public List<Auction> getAuctionList()
     {
-        String queryString = "SELECT e FROM AssetDispatch e WHERE e.userAccount=?1";
-        return crudApi.getEm().createQuery(queryString, AssetDispatch.class)
+        String queryString = "SELECT e FROM Auction e WHERE e.userAccount=?1";
+        return crudApi.getEm().createQuery(queryString, Auction.class)
                 .setParameter(1, appSession.getCurrentUser())
                 .getResultList();
     }
@@ -67,22 +66,6 @@ public class AssetService
         return crudApi.getEm().createQuery(queryString, Vendor.class)
                 .setParameter(1, appSession.getCurrentUser())
                 .getResultList();
-    }
-    
-    public List<AssetRegistration> getRegisteredAssetList()
-    {
-        try
-        {
-            String queryString = "SELECT e FROM AssetRegistration e WHERE e.userAccount=?1";
-            TypedQuery<AssetRegistration> typedQuery = crudApi.getEm().createQuery(queryString, AssetRegistration.class)
-                    .setParameter(1, appSession.getCurrentUser());
-            
-                   return typedQuery.getResultList();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return Collections.emptyList();
     }
     
     public List<AssetCategory> getAssetCategoryList()
@@ -271,40 +254,15 @@ public class AssetService
         try {
             if(dateRange.getFromDate() == null || dateRange.getToDate() == null)
             {
-                  String  queryString = "SELECT e FROM Asset e WHERE e.userAccount=?1 ORDER BY e.purchasedDate DESC";
+                  String  queryString = "SELECT e FROM Asset e WHERE e.userAccount=?1 ORDER BY e.regDate DESC";
                   TypedQuery<Asset> typedQuery = crudApi.getEm().createQuery(queryString, Asset.class)
                                               .setParameter(1, appSession.getCurrentUser());
                                     return typedQuery.getResultList();
             }
             
-            String qryString = "SELECT e FROM Asset e WHERE e.purchasedDate BETWEEN ?1 AND ?2 AND e.userAccount=?3 ORDER BY e.valueDate DESC";
+            String qryString = "SELECT e FROM Asset e WHERE e.regDate BETWEEN ?1 AND ?2 AND e.userAccount=?3 ORDER BY e.valueDate DESC";
             
             TypedQuery<Asset> typedQuery = crudApi.getEm().createQuery(qryString, Asset.class)
-                    .setParameter(1, dateRange.getFromDate())
-                    .setParameter(2, dateRange.getToDate())
-                    .setParameter(3, appSession.getCurrentUser());
-           return typedQuery.getResultList();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Collections.emptyList();
-    }
-    
-    public List<AssetRegistration> getAssetRegistration(DateRangeUtil dateRange)
-    {
-        try {
-            if(dateRange.getFromDate() == null || dateRange.getToDate() == null)
-            {
-                  String  queryString = "SELECT e FROM AssetRegistration e WHERE e.userAccount=?1 ORDER BY e.valueDate DESC";
-                  TypedQuery<AssetRegistration> typedQuery = crudApi.getEm().createQuery(queryString, AssetRegistration.class)
-                                              .setParameter(1, appSession.getCurrentUser());
-                                    return typedQuery.getResultList();
-            }
-            
-            String qryString = "SELECT e FROM AssetRegistration e WHERE e.valueDate BETWEEN ?1 AND ?2 AND e.userAccount=?3 ORDER BY e.valueDate DESC";
-            
-            TypedQuery<AssetRegistration> typedQuery = crudApi.getEm().createQuery(qryString, AssetRegistration.class)
                     .setParameter(1, dateRange.getFromDate())
                     .setParameter(2, dateRange.getToDate())
                     .setParameter(3, appSession.getCurrentUser());

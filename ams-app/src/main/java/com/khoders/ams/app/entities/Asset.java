@@ -1,10 +1,14 @@
 package com.khoders.ams.app.entities;
 
+import com.khoders.ams.app.entities.enums.AssetStatus;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 /**
@@ -15,45 +19,42 @@ import javax.persistence.Table;
 @Table(name = "asset")
 public class Asset extends UserAccountRecord implements Serializable
 {
-    @Column(name = "serial_number")
-    private String serialNumber;
+    @Column(name = "asset_code")
+    private String assetCode;
+    
+    @Column(name = "reg_date")
+    private LocalDate regDate;
+    
+    @JoinColumn(name = "asset_location", referencedColumnName = "id")
+    @ManyToOne
+    private AssetLocation assetLocation;
+    
+    @JoinColumn(name = "department", referencedColumnName = "id")
+    @ManyToOne
+    private Department department;
+    
+    @JoinColumn(name = "faculty", referencedColumnName = "id")
+    @ManyToOne
+    private Faculty faculty;
+    
+    @Column(name = "asset_status")
+    @Enumerated(EnumType.STRING)
+    private AssetStatus assetStatus;
     
     @Column(name = "asset_name")
     private String assetName;
         
-    @Column(name = "unit_cost")
-    private double unitCost;
-    
-    @Column(name = "quantity")
-    private int quantity;
-    
-    @Column(name = "total_amount")
-    private double totalAmount;
-    
     @Column(name = "expected_lifespan")
-    private int expectedLifeSpan;
-    
-    @Column(name = "purchased_date")
-    private LocalDate purchasedDate;
-    
-    @JoinColumn(name = "client")
-    @ManyToOne
-    private Client client;
+    private String expectedLifeSpan;
     
     @JoinColumn(name = "asset_category", referencedColumnName = "id")
     @ManyToOne
     private AssetCategory assetCategory;
 
-    public String getSerialNumber()
-    {
-        return serialNumber;
-    }
-
-    public void setSerialNumber(String serialNumber)
-    {
-        this.serialNumber = serialNumber;
-    }
-
+    @Column(name = "description")
+    @Lob
+    private String description;
+        
     public String getAssetName()
     {
         return assetName;
@@ -64,64 +65,14 @@ public class Asset extends UserAccountRecord implements Serializable
         this.assetName = assetName;
     }
 
-    public double getUnitCost()
-    {
-        return unitCost;
-    }
-
-    public void setUnitCost(double unitCost)
-    {
-        this.unitCost = unitCost;
-    }
-
-    public int getQuantity()
-    {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity)
-    {
-        this.quantity = quantity;
-    }
-
-    public double getTotalAmount()
-    {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(double totalAmount)
-    {
-        this.totalAmount = totalAmount;
-    }
-
-    public int getExpectedLifeSpan()
+    public String getExpectedLifeSpan()
     {
         return expectedLifeSpan;
     }
 
-    public void setExpectedLifeSpan(int expectedLifeSpan)
+    public void setExpectedLifeSpan(String expectedLifeSpan)
     {
         this.expectedLifeSpan = expectedLifeSpan;
-    }
-
-    public LocalDate getPurchasedDate()
-    {
-        return purchasedDate;
-    }
-
-    public void setPurchasedDate(LocalDate purchasedDate)
-    {
-        this.purchasedDate = purchasedDate;
-    }
-
-    public Client getClient()
-    {
-        return client;
-    }
-
-    public void setClient(Client client)
-    {
-        this.client = client;
     }
     
     public AssetCategory getAssetCategory()
@@ -133,12 +84,81 @@ public class Asset extends UserAccountRecord implements Serializable
     {
         this.assetCategory = assetCategory;
     }
+
+    public String getAssetCode()
+    {
+        return assetCode;
+    }
+
+    public void setAssetCode(String assetCode)
+    {
+        this.assetCode = assetCode;
+    }
+
+    public LocalDate getRegDate()
+    {
+        return regDate;
+    }
+
+    public void setRegDate(LocalDate regDate)
+    {
+        this.regDate = regDate;
+    }
+    
+    public AssetLocation getAssetLocation()
+    {
+        return assetLocation;
+    }
+
+    public void setAssetLocation(AssetLocation assetLocation)
+    {
+        this.assetLocation = assetLocation;
+    }
+
+    public AssetStatus getAssetStatus()
+    {
+        return assetStatus;
+    }
+
+    public void setAssetStatus(AssetStatus assetStatus)
+    {
+        this.assetStatus = assetStatus;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
+    }
+
+    public Department getDepartment()
+    {
+        return department;
+    }
+
+    public void setDepartment(Department department)
+    {
+        this.department = department;
+    }
+
+    public Faculty getFaculty()
+    {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty)
+    {
+        this.faculty = faculty;
+    }
    
     @Override
     public String toString()
     {
        return assetName;
     }
-    
     
 }

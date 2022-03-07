@@ -8,6 +8,8 @@ package com.khoders.ams.app.jbeans;
 import com.khoders.ams.app.ReportFiles;
 import com.khoders.resource.reports.ReportManager;
 import com.khoders.ams.app.entities.Asset;
+import com.khoders.ams.app.entities.Department;
+import com.khoders.ams.app.entities.Faculty;
 import com.khoders.ams.app.jbeans.reportModels.AssetModel;
 import com.khoders.ams.app.listener.AppSession;
 import com.khoders.ams.app.services.AssetService;
@@ -47,6 +49,8 @@ public class AssetController implements Serializable
     private Asset asset = new Asset();
     private List<Asset> assetList = new LinkedList<>();
     private DateRangeUtil dateRange = new DateRangeUtil();
+    
+    private List<Department> departmentList = new LinkedList<>();
 
     private FormView pageView = FormView.listForm();
     private String optionText;
@@ -63,6 +67,12 @@ public class AssetController implements Serializable
         pageView.restToCreateView();
     }
     
+    public void fetchDepartment()
+    {
+        Faculty selectedFaculty = asset.getFaculty();
+        departmentList = assetService.getDepartmentListByFaculty(selectedFaculty);
+    }
+        
     public void filterAsset(){
         assetList = assetService.getAssets(dateRange); 
     }
@@ -115,14 +125,14 @@ public class AssetController implements Serializable
     public void printAsset()
     {
         assetList = assetService.getAssets(dateRange);
-        List<AssetModel> assetModelList = new LinkedList<>();
+        
         
         if(!assetList.isEmpty())
         {
-            AssetModel assetModel = xtractService.extractToAsset(assetList, new AssetModel());
-            assetModelList.add(assetModel);
+            List<AssetModel> assetModelList = xtractService.extractToAsset(assetList);
+            
+            reportManager.createReport(assetModelList, ReportFiles.ASSET_REPORT);
         }
-        reportManager.createReport(assetModelList, ReportFiles.ASSET_REPORT);
     }
 
     public void editAsset(Asset asset)
@@ -191,6 +201,10 @@ public class AssetController implements Serializable
     public void setDateRange(DateRangeUtil dateRange)
     {
         this.dateRange = dateRange;
+    }
+
+    public List<Department> getDepartmentList() {
+        return departmentList;
     }
     
 }
